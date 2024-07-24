@@ -36,6 +36,7 @@ class Artwork(models.Model):
     average_b = models.FloatField('平均B', editable=False, null=True)
     brightness = models.FloatField('明度', editable=False, null=True)
     saturation = models.FloatField('彩度', editable=False, null=True)
+    emotion = models.CharField('感情', null=True, blank=True)
     
     def save(self, *args, **kwargs):
         # 一時的にコミットせずに保存して、ファイルパスを取得
