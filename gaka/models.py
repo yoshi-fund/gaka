@@ -3,6 +3,10 @@ from PIL import Image
 import numpy as np
 
 class Gaka(models.Model):
+    
+    class Meta:
+        db_table = 'gaka'
+    
     GENDER = (
         (1, '男性'),
         (2, '女性')
@@ -12,19 +16,19 @@ class Gaka(models.Model):
     gender = models.IntegerField('性別', choices=GENDER)
     date_of_birth = models.DateField('生年月日')
     nationality = models.CharField('国籍', max_length=100)
-    awards = models.CharField('受賞', max_length=200, null=True, blank=True)
-    artistic_style = models.CharField('作風', max_length=200, null=True, blank=True)
     
     def __str__(self):
         return self.gaka_name
 
 class Artwork(models.Model):
+    
+    class Meta:
+        db_table = 'artworks'
+    
     title_name = models.CharField('作品名', max_length=200)
     gaka = models.ForeignKey(Gaka, on_delete=models.CASCADE, related_name='artworks')
-    year_of_creation = models.DateField('制作年')
-    techniques_used = models.CharField('使用技法', max_length=200)
-    subject = models.CharField('主題', max_length=200, null=True, blank=True)
-    current_location = models.CharField('所蔵場所', max_length=200, null=True, blank=True)
+    year_of_creation = models.DateField('制作年', null=True, blank=True)
+    techniques_used = models.CharField('使用技法', max_length=200, null=True, blank=True)
     
     image = models.ImageField(upload_to='artworks/')
     average_r = models.FloatField('平均R', editable=False, null=True)
@@ -64,4 +68,4 @@ class Artwork(models.Model):
             return (max_val - min_val) / max_val * 100
     
     def __str__(self):
-        return self.title_name
+        return f'{self.id} - {self.title_name}'
